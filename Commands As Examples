@@ -1,0 +1,50 @@
+REM Based on the work of Steve Jansen (http://steve-jansen.github.io/guides/windows-batch-scripting/part-1-getting-started.html)
+
+REM Setlocal prevents overwrites of system variables
+REM ENABLEEXTENSIONS enables command processor extensions
+SETLOCAL ENABLEEXTENSIONS
+
+REM Save name of script as me
+REM Use for printing statements ECHO %me%: some message
+SET me=%~n0
+
+REM Save parent directory
+SET parent=%~dp0
+
+REM Save a variable
+SET foo=bar
+
+REM Save a variable WITH arithmetic
+SET /A four=2+2
+
+REM Display a variable
+ECHO %foo%
+
+REM List all variables
+SET
+
+REM Reference arugments by using 0-9 (0 is name of script)
+ECHO %1
+
+REM Return Codes are either 0 (pass) or anything else (fail)
+REM Handle an error:
+IF %ERRORLEVEL% NEQ 0 (
+  REM do something here to address the error
+)
+
+REM Handle a specific error code:
+IF %ERRORLEVEL% EQU 9009 (
+  ECHO error - SomeFile.exe not found in your PATH
+)
+
+REM Execute command 2 after command 1 success
+SomeCommand.exe && ECHO SomeCommand.exe succeeded!
+REM Execute command 2 after command 1 success
+SomeCommand.exe || ECHO SomeCommand.exe failed with return code %ERRORLEVEL%
+
+REM Halt on error (for error level 1)
+SomeCommand.exe || EXIT /B 1
+
+REM Documenting possible return codes (put at top of doc)
+SET /A ERROR_HELP_SCREEN=1
+SET /A ERROR_FILE_NOT_FOUND=2
